@@ -1,0 +1,13 @@
+<h4>Template for main page:</h4>
+<div class="container-fluid">
+  <ngc-search (newZipAdded)="getWeatherForZipCode($event)"></ngc-search>
+
+  <div>
+    <ngc-weather-list
+      *ngIf="zipCodes && zipCodes.length > 0"
+      [zipCodes]="zipCodes"
+    ></ngc-weather-list>
+  </div>
+  <hr />
+
+</div>

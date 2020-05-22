@@ -1,0 +1,19 @@
+<div class="well flex">
+  <div>
+    <h3>{{ cityName }} ({{ zipCode }})</h3>
+    <h4>Current conditions: {{ currentConditions }}</h4>
+    <h4>Temperatures today: {{ currentTemp | number: "1.0-0" }}</h4>
+    <p>
+      <ngc-min-max [minTemp]="minTemp" [maxTemp]="maxTemp"></ngc-min-max>
+    </p>
+    <p>
+      <a [routerLink]="['/forecast/home', zipCode]"
+        >Show 5-day forecast for {{ cityName }}</a
+      >
+    </p>
+  </div>
+  <div>
+    <span class="close" (click)="deleteZip(zipCode)">×</span>
+    <img src="{{ imageName }}" />
+  </div>
+</div>

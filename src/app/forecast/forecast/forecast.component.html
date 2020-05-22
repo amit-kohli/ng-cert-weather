@@ -1,0 +1,25 @@
+<div class="container-fluid">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">5-day forecast for {{ cityName }}</h3>
+    </div>
+    <ul class="list-group">
+      <!---->
+      <li *ngFor="let forecast of forecastData" class="list-group-item">
+        <!-- Monday, Mar 23: Rain - Min: 45 - Max: 59 -->
+        {{ forecast.temperatureDate | date: "fullDate" }}
+        {{ forecast.main }} Min: {{ forecast.temp_min | number: "1.0-0" }} Max:
+        {{ forecast.temp_max | number: "1.0-0" }}
+        <img class="icon" src="{{ forecast.imageName }}" />
+      </li>
+    </ul>
+  </div>
+  <button
+    class="btn btn-success"
+    tabindex="0"
+    id="mainPageBtn"
+    (click)="navigateToMainPage()"
+  >
+    &lt; Back to main page
+  </button>
+</div>

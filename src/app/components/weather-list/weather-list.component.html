@@ -1,0 +1,3 @@
+<div *ngFor="let zipCode of zipCodes">
+  <ngc-weather [zipCode]='zipCode' (zipDeleted)='deleteZip($event)'></ngc-weather>
+</div>
