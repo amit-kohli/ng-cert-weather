@@ -16,7 +16,7 @@ export class WeatherService {
   constructor(private appConstants: AppConstants, private httpClient: HttpClient) { }
 
   getWeatherForZipCode = (zipCode: string): Observable<IWeather> => {
-    const apiUrl = `${environment.weatherApiUrl}WRONG?zip=${zipCode}&appid=${environment.weatherAppId}`;
+    const apiUrl = `${environment.weatherApiUrl}weather?zip=${zipCode}&appid=${environment.weatherAppId}`;
 
     return this.httpClient.get<IWeather>(apiUrl)
       .pipe(
@@ -62,7 +62,7 @@ export class WeatherService {
       case 'clouds':
         return this.appConstants.CLOUDS;
 
-      default:
+      default: // ersatz show sun for types like thunderstorm where images are not available
         return this.appConstants.SUN;
     }
   }
