@@ -11,6 +11,9 @@
         >Show 5-day forecast for {{ cityName }}</a
       >
     </p>
+    <p *ngIf="errorMessage" class="bg-danger text-white">
+      {{ errorMessage }}
+    </p>
   </div>
   <div>
     <span class="close" (click)="deleteZip(zipCode)">×</span>

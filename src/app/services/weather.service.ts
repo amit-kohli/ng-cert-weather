@@ -5,7 +5,7 @@ import { Observable, throwError, of } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
 
 import { environment } from './../../environments/environment';
-import { IWeatherSearch, IForecast } from './../models/weather.interface';
+import { IWeather, IForecast } from './../models/weather.interface';
 import { AppConstants } from './../app.constants';
 
 @Injectable({
@@ -15,10 +15,10 @@ export class WeatherService {
 
   constructor(private appConstants: AppConstants, private httpClient: HttpClient) { }
 
-  getWeatherForZipCode = (zipCode: string): Observable<IWeatherSearch> => {
-    const apiUrl = `${environment.weatherApiUrl}weather?zip=${zipCode}&appid=${environment.weatherAppId}`;
+  getWeatherForZipCode = (zipCode: string): Observable<IWeather> => {
+    const apiUrl = `${environment.weatherApiUrl}WRONG?zip=${zipCode}&appid=${environment.weatherAppId}`;
 
-    return this.httpClient.get<IWeatherSearch>(apiUrl)
+    return this.httpClient.get<IWeather>(apiUrl)
       .pipe(
         retry(3),
         catchError(this.handleError)
@@ -36,6 +36,20 @@ export class WeatherService {
       );
   }
 
+  /**
+   * from the reqquirements
+   * "-	In case the API does not work, you can use the following backup URL, which provides static data only"
+   * to test this replace line 19 with - incorrect url
+   * const apiUrl = `${environment.weatherApiUrl}WRONG?zip=${zipCode}&appid=${environment.weatherAppId}`;
+   */
+  useContingencyUrl = (contingencyUrl: string): Observable<IWeather> => {
+    return this.httpClient.get<IWeather>(contingencyUrl)
+      .pipe(
+        retry(3),
+        // catchError(this.handleError)
+      );
+  }
+
   getImageName = (weather: string): string => {
     switch (weather.toLowerCase()) {
       case 'rain':
@@ -49,8 +63,7 @@ export class WeatherService {
         return this.appConstants.CLOUDS;
 
       default:
-        // TODO: error handling
-        return '';
+        return this.appConstants.SUN;
     }
   }
 

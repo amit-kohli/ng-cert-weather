@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { WeatherService } from 'src/app/services/weather.service';
-import { IWeatherSearch } from './../../models/weather.interface';
+import { IWeather } from './../../models/weather.interface';
 
 @Component({
   selector: 'ngc-weather',
@@ -17,6 +17,7 @@ export class WeatherComponent implements OnInit {
   minTemp: number;
   maxTemp: number;
   imageName: string;
+  errorMessage: string;
 
   constructor(private weatherService: WeatherService) { }
 
@@ -25,13 +26,26 @@ export class WeatherComponent implements OnInit {
   }
 
   displayWeather = () => {
-    this.weatherService.getWeatherForZipCode(this.zipCode).subscribe(
-      (res: IWeatherSearch) => {
+    this.weatherService.getWeatherForZipCode(this.zipCode).subscribe({
+      next: (res: IWeather) => {
         this.mapDataToUIProps(res);
-      });
+      },
+      error: err => this.useContingencyUrl(),
+    }
+    );
   }
 
-  mapDataToUIProps = (weatherData: IWeatherSearch): void => {
+  useContingencyUrl = () => {
+    const backupUrl = 'http://interstate21.com/demos/angular/weather.php';
+    this.weatherService.useContingencyUrl(backupUrl).subscribe({
+      next: (res: IWeather) => {
+        this.mapDataToUIProps(res);
+      },
+      error: err => this.errorMessage = err,
+    });
+  }
+
+  mapDataToUIProps = (weatherData: IWeather): void => {
     this.cityName = weatherData.name;
     this.currentConditions = weatherData.weather[0].main;
     this.setImageName(this.currentConditions);
