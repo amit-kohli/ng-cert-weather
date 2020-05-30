@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { JsonpClientBackend } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +20,7 @@ export class StorageService {
   setItem(key: string, data: object) {
     if (typeof (data) === 'string') {
       window.localStorage.setItem(key, data);
+      return; // ~~ from Alain
     }
 
     window.localStorage.setItem(key, JSON.stringify(data))

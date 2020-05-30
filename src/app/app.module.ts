@@ -23,10 +23,9 @@ import { MinMaxComponent } from './components/min-max/min-max.component';
     MinMaxComponent
   ],
   imports: [
-  BrowserModule,
+    BrowserModule,
     HttpClientModule,
     AppRoutingModule,
-    ForecastModule
   ],
   providers: [AppConstants],
   bootstrap: [AppComponent]
